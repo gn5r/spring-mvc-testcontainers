@@ -1,0 +1,18 @@
+name: "spring-mvc-testcontainers"
+services:
+  mysql:
+    build: .
+    restart: always
+    environment:
+      TZ: Asia/Tokyo
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: mvc
+      MYSQL_USER: mvc
+      MYSQL_PASSWORD: mvc
+    volumes:
+      - data:/var/lib/mysql
+    ports:
+      - 13306:3306
+
+volumes:
+  data:

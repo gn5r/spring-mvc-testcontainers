@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.gn5r.web.index.mapper.IndexMapper">
+  <select id="selectAll" resultType="com.github.gn5r.web.index.dto.EmployeeDto">
+    select id,
+           concat(family_name, first_name)                            as name,
+           (select name from department d where d.id = department_id) as department_name,
+           hire_date,
+           retirement_date,
+           update_date
+    from employee
+    where delete_flag = false
+    order by update_date desc, id desc
+  </select>
+</mapper>
