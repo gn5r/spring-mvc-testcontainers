@@ -1,17 +1,7 @@
 <!DOCTYPE html>
-<html lang="ja">
-
-<head>
-  <meta charset="UTF-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Spring MVC + Testcontainers</title>
-
-  <script data-th-src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
-  <link data-th-href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
-</head>
-
+<html data-layout-decorate="~{layout}" lang="ja">
 <body>
-<div class="container py-3">
+<div data-layout-fragment="content">
   <div class="alert alert-success alert-dismissible fade show" role="alert">
     Hello <strong data-th-text="${applicationName}"></strong>!
     <button aria-label="Close" class="btn-close" data-bs-dismiss="alert" type="button"></button>

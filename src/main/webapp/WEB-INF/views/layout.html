@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title data-layout-title-pattern="$CONTENT_TITLE">Spring MVC + Testcontainers</title>
+
+  <script data-th-src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+  <link data-th-href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+
+<body>
+<div class="container p-3">
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link active">トップ</a>
+    </li>
+  </ul>
+
+  <div class="container p-3">
+    <!-- content -->
+    <div data-layout-fragment="content"></div>
+  </div>
+
+  <footer class="mt-auto py-3 bg-body-tertiary">
+    <div class="container text-end">
+      <span class="text-body-secondary">&copy;2024 shangyuan.tuolang</span>
+    </div>
+  </footer>
+</div>
+</body>
+
+</html>
