@@ -9,6 +9,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlGroup;
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,7 +18,10 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-@Sql("/META-INF/sql/com/github/gn5r/web/employee/mapper/insert_data_employee.sql")
+@SqlGroup({
+  @Sql("/META-INF/sql/com/github/gn5r/web/employee/mapper/insert_data_employee.sql"),
+  @Sql(statements = "truncate table employee;", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+})
 public class EmployeeSearchMapperTest extends AbstractMapperTest {
 
   @Autowired
