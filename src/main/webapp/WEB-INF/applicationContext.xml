@@ -42,5 +42,5 @@
   </bean>
 
   <mybatis:scan base-package="com.github.gn5r.web.mybatis.mapper"/>
-  <mybatis:scan base-package="com.github.gn5r.web.index.mapper"/>
+  <mybatis:scan base-package="com.github.gn5r.web.employee.mapper"/>
 </beans>
