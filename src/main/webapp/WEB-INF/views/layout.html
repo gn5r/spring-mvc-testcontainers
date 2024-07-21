@@ -6,15 +6,24 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title data-layout-title-pattern="$CONTENT_TITLE">Spring MVC + Testcontainers</title>
 
+  <script data-th-src="@{/js/index.js}"></script>
+
+  <!-- bootstrap5 -->
   <script data-th-src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
   <link data-th-href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+  <!-- bootstrap icon -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 
 <body>
 <div class="container p-3">
   <ul class="nav nav-tabs">
     <li class="nav-item">
-      <a class="nav-link active">トップ</a>
+      <a class="nav-link" data-th-classappend="${servletPath.equals('/')} ? 'active'" data-th-href="@{/}">トップ</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-th-classappend="${#strings.contains(servletPath, '/employee/')} ? 'active'"
+         data-th-href="@{/employee/search.html}">従業員</a>
     </li>
   </ul>
 

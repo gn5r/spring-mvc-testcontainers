@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html data-layout-decorate="~{layout}" lang="ja">
+<body>
+<div data-layout-fragment="content">
+  <script>
+    /**
+     *
+     * @param {string} page
+     * @param {string} size
+     */
+    function submit(page, size) {
+      const form = document.querySelector("form")
+      const params = new URLSearchParams(location.search)
+      page && params.set("page", page)
+      size && params.set("size", size)
+      form.action += `?${params.toString()}`
+      form.submit()
+    }
+  </script>
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="accordion" id="formAccordion">
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button aria-controls="collapseForm" aria-expanded="true" class="accordion-button bg-body-tertiary"
+                      data-bs-target="#collapseForm"
+                      data-bs-toggle="collapse" type="button">
+                検索条件
+              </button>
+            </h2>
+            <div class="accordion-collapse collapse show" data-bs-parent="#formAccordion" id="collapseForm">
+              <div class="accordion-body">
+                <form data-th-action="@{/employee/search.html}" data-th-object="${employeeForm}" method="post">
+                  <div class="row g-3 mb-3">
+                    <div class="col-lg-4 col-md-6">
+                      <div class="form-floating">
+                        <input class="form-control" data-th-field="*{name}" type="text">
+                        <label for="name">氏名</label>
+                      </div><!--.form-floating-->
+                    </div><!--.col-->
+                    <div class="col-lg-2 col-md-3">
+                      <div class="form-floating">
+                        <select class="form-select" data-th-field="*{department}">
+                          <option value="">選択してください</option>
+                          <option data-th-each="d : ${departments}"
+                                  data-th-selected="${d.value == employeeForm.department}"
+                                  data-th-text="${d.title}" data-th-value="${d.value}"></option>
+                        </select>
+                        <label for="department">部署</label>
+                      </div><!--.form-floating-->
+                    </div><!--.col-->
+                  </div><!--.row-->
+                  <div class="row g-3 mb-3">
+                    <div class="col-lg-2 col-md-3">
+                      <div class="form-floating">
+                        <input aria-labelledby="hireDateHelpInline" class="form-control"
+                               data-th-field="*{startHireDate}"
+                               type="date">
+                        <label for="startHireDate">入社日</label>
+                      </div><!--.form-floating-->
+                    </div><!--.col-->
+                    <div class="col-auto d-flex align-items-center">
+                      <span class="form-text" id="hireDateHelpInline">～</span>
+                    </div><!--.col-->
+                    <div class="col-lg-2 col-md-3">
+                      <div class="form-floating">
+                        <input class="form-control" data-th-field="*{endHireDate}"
+                               type="date">
+                        <label for="endHireDate">入社日</label>
+                      </div><!--.form-floating-->
+                    </div><!--.col-->
+                  </div><!--.row-->
+                  <div class="row">
+                    <div class="col-auto">
+                      <button class="btn btn-primary" type="submit">検索</button>
+                    </div>
+                    <div class="col-auto">
+                      <button class="btn btn-success" type="reset">リセット</button>
+                      <script>
+                        document.querySelector("button[type=reset]").addEventListener("click", function (e) {
+                          e.preventDefault();
+                          [...this.form.elements].forEach(el => clearElementValue(el))
+                        })
+                      </script>
+                    </div>
+                  </div>
+                </form>
+              </div><!--.accordion-body-->
+            </div><!--.accordion-collapse-->
+          </div><!--.accordion-item-->
+        </div><!--.accordion-->
+      </div><!--.col-->
+    </div><!--.row-->
+    <div class="row mt-3">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="card-title" data-th-if="${page != null}">
+              <div class="row justify-content-end">
+                <div class="col-auto">
+                  <label class="col-form-label" for="rowsPerPage">表示数</label>
+                </div>
+                <div class="col-auto">
+                  <select class="form-select" id="rowsPerPage">
+                    <option data-th-each="i : ${rowsPerPages}"
+                            data-th-selected="${#strings.toString(page.size).equals(i.value)}"
+                            data-th-text="${i.title}"
+                            data-th-value="${i.value}">10
+                    </option>
+                  </select>
+                  <script>
+                    document.querySelector("#rowsPerPage").addEventListener("change", function (e) {
+                      const size = this.value
+                      const params = new URLSearchParams(location.search)
+                      const page = params.has("page") ? params.get("page") : undefined
+                      submit(page, size)
+                    })
+                  </script>
+                </div>
+              </div>
+            </div>
+            <table class="table table-striped">
+              <thead>
+              <tr>
+                <th>#</th>
+                <th>氏名</th>
+                <th>部署</th>
+                <th>入社日</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr data-th-each="i : ${list}">
+                <td data-th-text="${i.id}">1</td>
+                <td data-th-text="${i.name}">テスト太郎</td>
+                <td data-th-text="${i.departmentName}">総務部</td>
+                <td data-th-text="${i.hireDate}">2000/01/01</td>
+              </tr>
+              </tbody>
+            </table>
+          </div><!--.card-body-->
+          <div class="card-footer" data-th-if="${page != null}">
+            <nav>
+              <ul class="pagination justify-content-center mb-0">
+                <!-- previous -->
+                <li class="page-item">
+                  <span aria-label="Previous" class="page-link" data-th-if="${page.first}">&laquo;</span>
+                  <a aria-label="Previous" class="page-link"
+                     data-th-data-page="${page.number}"
+                     data-th-unless="${page.first}" href="javascript:void(0);">&laquo;</a>
+                </li>
+                <!-- page number -->
+                <li class="page-item" data-th-each="i : ${#numbers.sequence(1, page.totalPages)}">
+                  <span class="page-link active" data-th-if="${i == page.number + 1}" data-th-text="${i}">1</span>
+                  <a class="page-link" data-th-data-page="${i}"
+                     data-th-text="${i}"
+                     data-th-unless="${i == page.number + 1}" href="javascript:void(0)">1</a>
+                </li>
+                <!-- next -->
+                <li class="page-item">
+                  <span aria-label="Next" class="page-link" data-th-if="${page.last}">&raquo;</span>
+                  <a aria-label="Next" class="page-link"
+                     data-th-data-page="${page.number + 2}"
+                     data-th-unless="${page.last}" href="javascript:void(0)">&raquo;</a>
+                </li>
+                <script>
+                  document.querySelectorAll("a.page-link").forEach(el => {
+                    el.addEventListener("click", (e) => {
+                      e.preventDefault()
+                      const page = el.getAttribute("data-page")
+                      const params = new URLSearchParams(location.search)
+                      const size = params.has("size") ? params.get("size") : undefined
+                      submit(page, size)
+                    })
+                  });
+                </script>
+              </ul>
+            </nav>
+            <div class="text-center">
+              <span data-th-text="|全${page.totalElements}件|"></span>
+            </div>
+            <div class="text-center">
+              <span data-th-text="|${page.number + 1}/${page.totalPages}ページ|"></span>
+            </div>
+          </div><!--.card-footer-->
+        </div><!--.card-->
+      </div><!--.col-->
+    </div><!--.row-->
+  </div><!--.container-->
+</div><!--fragment-->
+</body>
+
+</html>
