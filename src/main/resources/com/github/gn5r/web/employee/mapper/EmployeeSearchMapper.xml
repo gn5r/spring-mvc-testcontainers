@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.gn5r.web.employee.mapper.EmployeeSearchMapper">
+  <select id="searchEmployee" parameterType="java.util.Map"
+          resultType="com.github.gn5r.web.employee.dto.EmployeeDto">
+    select e.id,
+    concat(e.family_name, e.first_name) as name,
+    d.name as department_name,
+    e.hire_date,
+    e.retirement_date,
+    e.update_date
+    from employee e
+    left join department d
+    on e.department_id = d.id
+    where
+    e.delete_flag = false
+    <if test="name != null and name != ''">
+      and (
+      concat(e.family_name, e.first_name) like concat('%', #{name}, '%')
+      or e.family_name like concat('%', #{name}, '%')
+      or e.first_name like concat('%', #{name}, '%')
+      )
+    </if>
+    <if test="department != null and department != ''">
+      and d.id = #{department}
+    </if>
+    <if test="startHireDate != null and startHireDate != '' and endHireDate != null and endHireDate != ''">
+      and date_format(hire_date, '%Y-%m-%d') between #{startHireDate} and #{endHireDate}
+    </if>
+    <if test="(startHireDate != null and startHireDate != '') and (endHireDate == null or endHireDate == '')">
+      and date_format(hire_date, '%Y-%m-%d') <![CDATA[ >= ]]> #{startHireDate}
+    </if>
+    <if test="(startHireDate == null or startHireDate == '') and (endHireDate != null and endHireDate != '')">
+      and date_format(hire_date, '%Y-%m-%d') <![CDATA[ <= ]]> #{endHireDate}
+    </if>
+    order by e.update_date desc, e.id desc
+  </select>
+  <select id="countSearchEmployee" parameterType="java.util.Map"
+          resultType="int">
+    select count(e.id)
+    from employee e
+    left join department d
+    on e.department_id = d.id
+    where
+    e.delete_flag = false
+    <if test="name != null and name != ''">
+      and (
+      concat(e.family_name, e.first_name) like concat('%', #{name}, '%')
+      or e.family_name like concat('%', #{name}, '%')
+      or e.first_name like concat('%', #{name}, '%')
+      )
+    </if>
+    <if test="department != null and department != ''">
+      and d.id = #{department}
+    </if>
+    <if test="startHireDate != null and startHireDate != '' and endHireDate != null and endHireDate != ''">
+      and date_format(hire_date, '%Y-%m-%d') between #{startHireDate} and #{endHireDate}
+    </if>
+    <if test="(startHireDate != null and startHireDate != '') and (endHireDate == null or endHireDate == '')">
+      and date_format(hire_date, '%Y-%m-%d') <![CDATA[ >= ]]> #{startHireDate}
+    </if>
+    <if test="(startHireDate == null or startHireDate == '') and (endHireDate != null and endHireDate != '')">
+      and date_format(hire_date, '%Y-%m-%d') <![CDATA[ <= ]]> #{endHireDate}
+    </if>
+    order by e.update_date desc, e.id desc
+  </select>
+  <select id="selectDepartments" resultType="com.github.gn5r.web.common.dto.SelectBoxDto">
+    select id as value,
+      name as title
+    from
+      department
+    order by id
+  </select>
+</mapper>

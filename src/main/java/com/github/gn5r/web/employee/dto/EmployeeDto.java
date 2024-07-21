@@ -1,4 +1,4 @@
-package com.github.gn5r.web.index.dto;
+package com.github.gn5r.web.employee.dto;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
