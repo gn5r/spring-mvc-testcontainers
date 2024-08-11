@@ -5,6 +5,7 @@ import com.github.gn5r.web.common.dto.SelectBoxDto;
 import com.github.gn5r.web.employee.dto.EmployeeDto;
 import com.github.gn5r.web.employee.form.EmployeeForm;
 import com.github.gn5r.web.employee.service.EmployeeSearchService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,10 +20,10 @@ import java.util.List;
 
 @Controller
 @RequestMapping("employee")
+@RequiredArgsConstructor
 public class EmployeeController extends BaseController {
 
-  @Autowired
-  private EmployeeSearchService employeeSearchService;
+  private final EmployeeSearchService employeeSearchService;
 
   @ModelAttribute("departments")
   public List<SelectBoxDto> getDepartments() {

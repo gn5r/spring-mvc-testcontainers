@@ -5,6 +5,7 @@ import com.github.gn5r.web.employee.dto.EmployeeDto;
 import com.github.gn5r.web.employee.form.EmployeeForm;
 import com.github.gn5r.web.employee.mapper.EmployeeSearchMapper;
 import com.github.gn5r.web.employee.service.EmployeeSearchService;
+import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -16,13 +17,10 @@ import java.util.List;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class EmployeeSearchServiceImpl implements EmployeeSearchService {
 
   private final EmployeeSearchMapper employeeSearchMapper;
-
-  public EmployeeSearchServiceImpl(EmployeeSearchMapper employeeSearchMapper) {
-    this.employeeSearchMapper = employeeSearchMapper;
-  }
 
   /**
    * @see EmployeeSearchService#getDepartments()
