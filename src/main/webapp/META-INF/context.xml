@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/spring" reloadable="true" crossContext="true"
+         docBase="/usr/local/tomcat/webapps/spring-mvc">
+</Context>
