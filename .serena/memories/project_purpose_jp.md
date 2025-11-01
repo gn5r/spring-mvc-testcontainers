@@ -1,0 +1,1 @@
+Spring MVCとThymeleafで構築されたJavaのWebアプリケーションです。従業員管理システムのようです。
